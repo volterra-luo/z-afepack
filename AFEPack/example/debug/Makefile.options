@@ -1,0 +1,25 @@
+MPI=mpich2
+MPICC=$(MPIHOME)/bin/mpiCC
+
+#MPI=mpi
+#MPIHOME=/usr/lib/openmpi
+#MPICC=/usr/bin/mpiCC
+
+CFLAGS=-g -O0 -D__SERIALIZATION__ -I$(MPIHOME)/include -I/usr/include/deal.II
+#BOOST_LIBS=-lboost_serialization-gcc -lboost_program_options-gcc
+BOOST_LIBS=-lboost_serialization -lboost_program_options -L$(HOME)/lib
+LIBS=$(BOOST_LIBS) -lAFEPack -llac -lbase -ldl -pthread -L$(HOME)/src/AFEPack/library/lib 
+CC=gcc
+
+MPILIBS=-lAFEPack_mpi $(LIBS)
+
+TRILINOSLIBS=-lml -lifpack -laztecoo -lepetraext -lepetra -lteuchos -ltriutils 
+
+PETSC_DIR=/usr/local/petsc
+PETSC_ARCH=linux-$(MPI)
+PETSC_INC=-I$(PETSC_DIR)/include -I$(PETSC_DIR)/$(PETSC_ARCH)/include -I/usr/include/openmpi
+PETSC_MPICC=$(MPIHOME)/bin/mpiCC
+PETSC_LIBS=-lpetsc -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -lX11 
+
+HYPRE_MPICC=$(MPIHOME)/bin/mpicxx
+HYPRE_LIBS=-lHYPRE
